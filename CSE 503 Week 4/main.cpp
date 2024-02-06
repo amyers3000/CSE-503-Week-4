@@ -17,7 +17,7 @@ private:
 public:
     HashEntry(int key, int value) : key(key), value(value) {}
     
-    int getKey() const {
+    int getKey() {
         return key;
     }
     
@@ -53,11 +53,12 @@ public:
         int hash = get(value);
         
         if(hash != -1){
-            table[hash] = new HashEntry(hash, value);
-            currentSize++;
-        }
-        else if(hash == -1){
-            table[hash]->getValue() = value;
+            if(table[hash] == NULL) {
+                table[hash] = new HashEntry(hash, value);
+                currentSize++;
+            }else{
+                table[hash]->getValue() = value;
+            }
         }
         if (currentSize > tableSize / 2) {
             std::cout << "BEFORE Rehash: " << std::endl;
